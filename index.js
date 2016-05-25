@@ -10,7 +10,8 @@ var mime = require('mime')
 var db = memdb()
 var drive = hyperdrive(db)
 
-var archive = drive.createArchive({live: true})
+var key = window.location.toString().split('#')[1]
+var archive = drive.createArchive(key, {live: true})
 var sw = swarm(signalhub('hyperdrive-www-live-' + archive.key.toString('hex'), 'https://signalhub.mafintosh.com'))
 
 window.location = '#' + archive.key.toString('hex')
