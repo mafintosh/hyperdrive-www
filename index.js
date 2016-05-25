@@ -6,6 +6,7 @@ var swarm = require('webrtc-swarm')
 var signalhub = require('signalhub')
 var memdb = require('memdb')
 var mime = require('mime')
+var choppa = require('choppa')
 
 var db = memdb()
 var drive = hyperdrive(db)
@@ -17,12 +18,15 @@ var sw = swarm(signalhub('hyperdrive-www-live-' + archive.key.toString('hex'), '
 window.location = '#' + archive.key.toString('hex')
 
 sw.on('peer', function (peer) {
+  console.log('new peer')
   peer.pipe(archive.replicate()).pipe(peer)
 })
 
 var index = 0
 
 archive.list({live: true}).on('data', function (entry) {
+  console.log(entry)
+
   var $files = document.getElementById('files')
   var i = index++
 
@@ -46,6 +50,6 @@ drop(document.body, function (files) {
 
     var file = files[i++]
     var stream = fileReader(file)
-    stream.pipe(archive.createFileWriteStream(file.name)).on('finish', loop)
+    stream.pipe(choppa(16 * 1024)).pipe(archive.createFileWriteStream(file.name)).on('finish', loop)
   }
 })
