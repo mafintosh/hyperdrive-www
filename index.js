@@ -1,4 +1,4 @@
-var drop = require('drag-and-drop-files')
+var drop = require('drag-drop')
 var fileReader = require('filereader-stream')
 var concat = require('concat-stream')
 var hyperdrive = require('hyperdrive')
@@ -50,6 +50,6 @@ drop(document.body, function (files) {
 
     var file = files[i++]
     var stream = fileReader(file)
-    stream.pipe(choppa(16 * 1024)).pipe(archive.createFileWriteStream(file.name)).on('finish', loop)
+    stream.pipe(choppa(16 * 1024)).pipe(archive.createFileWriteStream(file.fullPath)).on('finish', loop)
   }
 })
