@@ -19,10 +19,20 @@ window.location = '#' + archive.key.toString('hex')
 
 sw.on('peer', function (peer) {
   console.log('new peer')
-  peer.pipe(archive.replicate()).pipe(peer)
+  var stream = archive.replicate()
+  peer.pipe(stream).pipe(peer)
+  stream.on('close', function () {
+    console.log('peer disconnected')
+  })
 })
 
 var index = 0
+
+archive.open(function () {
+  if (archive.owner) {
+    document.getElementsByTagName('h1')[0].display = 'block'
+  }
+})
 
 archive.list({live: true}).on('data', function (entry) {
   console.log(entry)
@@ -34,7 +44,9 @@ archive.list({live: true}).on('data', function (entry) {
   li.innerHTML = '<a href="javascript:void(0)">' + entry.name + '</a>'
   $files.appendChild(li)
   li.onclick = function () {
+    console.log('fetching file')
     archive.createFileReadStream(i).pipe(concat(function (data) {
+      console.log('displaying file')
       document.getElementById('display').style.display = 'block'
       document.getElementById('display').src = 'data:' + mime.lookup(entry.name) + ';base64,' + data.toString('base64')
     }))
