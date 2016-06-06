@@ -19,7 +19,7 @@ window.location = '#' + archive.key.toString('hex')
 
 sw.on('peer', function (peer) {
   console.log('new peer')
-  var stream = archive.replicate({private: false}) // webrtc does E2E for us
+  var stream = archive.replicate()
   peer.pipe(stream).pipe(peer)
   stream.on('close', function () {
     console.log('peer disconnected')
