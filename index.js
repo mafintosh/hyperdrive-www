@@ -31,7 +31,7 @@ var index = 0
 archive.open(function () {
   console.log('opened archive', archive)
   if (archive.owner) {
-    document.getElementsByTagName('h1')[0].display = 'block'
+    document.getElementsByTagName('h1')[0].style.display = 'block'
   }
 })
 
