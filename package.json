@@ -8,7 +8,7 @@
     "concat-stream": "^1.5.1",
     "drag-drop": "^2.11.0",
     "filereader-stream": "^1.0.0",
-    "hyperdrive": "^6.1.0",
+    "hyperdrive": "^6.2.0",
     "memdb": "^1.3.1",
     "mime": "^1.3.4",
     "signalhub": "^4.3.2",
