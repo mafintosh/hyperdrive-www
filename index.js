@@ -13,7 +13,7 @@ var drive = hyperdrive(db)
 
 var key = window.location.toString().split('#')[1]
 var archive = drive.createArchive(key, {live: true})
-var sw = swarm(signalhub('dat-' + archive.discoveryKey.toString('hex'), 'https://signalhub.mafintosh.com'))
+var sw = swarm(signalhub('dat-' + archive.discoveryKey.toString('hex'), window.localStorage.signalhub || 'https://signalhub.mafintosh.com'))
 
 window.location = '#' + archive.key.toString('hex')
 
